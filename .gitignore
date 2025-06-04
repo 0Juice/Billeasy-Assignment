@@ -1,0 +1,2 @@
+# Ignore Node Modules to prevent pushing to Github
+/node_modules
