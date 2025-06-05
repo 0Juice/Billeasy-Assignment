@@ -1,4 +1,7 @@
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+
+const ObjectId = mongoose.Types.ObjectId;
 
 async function userAuthentication(req, res, next){
     const authHeader = req.headers.authorization;
@@ -10,7 +13,7 @@ async function userAuthentication(req, res, next){
 
         if(decodedUser.username){
             req.username = decodedUser.username;
-            req.userId = decodedUser.userId;
+            req.userId = new ObjectId(String(decodedUser.userId));
             next();
         }else{
             res.status(401).json({

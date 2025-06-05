@@ -2,9 +2,7 @@ const { Router } = require("express");
 const { Book, Review } = require("../database");
 const { bookSchema, reviewSchema } = require("../schemas");
 const { userAuthentication } = require("../middlewares/authentication");
-const mongoose = require("mongoose");
-
-const ObjectId = mongoose.Types.ObjectId;
+const { validateBookId } = require("../middlewares/validation");
 
 const booksRouter = Router();
 
@@ -92,8 +90,8 @@ booksRouter.get("/", async (req, res) => {
 // GET /books/:id – Get book details by ID, including:
 // ○ Average rating
 // ○ Reviews (with pagination)
-booksRouter.get("/:id", async (req, res) => {
-    const bookId = new ObjectId(req.params.id);
+booksRouter.get("/:id", validateBookId, async (req, res) => {
+    const bookId = req.bookId;
     const page = req.query.page || 1;
 	const offset = req.query.offset || 10;
 
@@ -151,9 +149,9 @@ booksRouter.get("/:id", async (req, res) => {
 });
 
 // POST /books/:id/reviews – Submit a review (Authenticated users only, one review per user per book)
-booksRouter.post("/:id/reviews", userAuthentication, async (req, res) => {
-    const bookId = new ObjectId(req.params.id);
-    const userId = new ObjectId(String(req.userId));
+booksRouter.post("/:id/reviews", userAuthentication, validateBookId, async (req, res) => {
+    const bookId = req.bookId;
+    const userId = req.userId;
     const { rating, content } = req.body;
 
     const validatedReview = reviewSchema.safeParse({ bookId, userId, rating, content});
