@@ -24,10 +24,11 @@ reviewsRouter.put("/:id", userAuthentication, validateBookId, async (req, res) =
                 error: "No Review Found to Update"
             });
         }else{
-            res.json({
-                message: "Review Successfully Updated"
-            }); 
-        }
+			// 204 No Content
+			res.status(204).json({
+				message: "Review Successfully Updated",
+			});
+		}
     }else{
 		// 400 Bad Request
 		res.status(400).json({
@@ -52,10 +53,11 @@ reviewsRouter.delete("/:id", userAuthentication, validateBookId, async(req, res)
 			error: "No Review Found to Delete",
 		});
 	}else{
-        res.json({
-            message: "Review Successfully Deleted"
-        });
-    }
+		// 204 No Content
+		res.status(204).json({
+			message: "Review Successfully Deleted",
+		});
+	}
 });
 
 module.exports = reviewsRouter;
