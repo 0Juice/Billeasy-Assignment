@@ -1,2 +1,4 @@
 # Ignore Node Modules to prevent pushing to Github
 /node_modules
+# Ignore .env to prevent pushing sensitive secrets to Github
+.env
