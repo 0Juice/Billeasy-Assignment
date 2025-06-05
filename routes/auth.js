@@ -34,7 +34,7 @@ authRouter.post("/signup", async (req, res) => {
         // 400 Bad Request
         res.status(400).json({
             // More detailed Errors can be returned for better Semantic Understanding
-            message: "Validation Failed"
+            error: "Validation Failed"
         });
     }
 });
@@ -75,7 +75,7 @@ authRouter.post("/login", async (req, res) => {
                 const token = jwt.sign(
                     {
                         username: user.username,
-                        userID: user._id,
+                        userId: user._id,
                     },
                     process.env.JWT_SECRET
                 );
@@ -87,12 +87,12 @@ authRouter.post("/login", async (req, res) => {
 
             }else{
                 res.status(401).json({
-					message: "Invalid Credentials"
+					error: "Invalid Credentials"
 				});
             }
         }else{
             res.status(401).json({
-                message: "No such User Available"
+                error: "No such User Available"
             });
         }
 
@@ -100,7 +100,7 @@ authRouter.post("/login", async (req, res) => {
         // 400 Bad Request
         res.status(400).json({
             // More detailed Errors can be returned for better Semantic Understanding
-            message: "Validation Failed"
+            error: "Validation Failed"
         });
     }
 });
