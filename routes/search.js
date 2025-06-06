@@ -6,7 +6,7 @@ const searchRouter = Router();
 
 // GET /search – Search books by title or author (partial and case-insensitive)
 searchRouter.get("/", async(req, res) => {
-    const { title, author } = req.body;
+    const { title, author } = req.query;
 
     const validatedSearchQuery = bookSearchSchema.safeParse({ title, author });
 
