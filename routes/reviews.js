@@ -24,10 +24,8 @@ reviewsRouter.put("/:id", userAuthentication, validateBookId, async (req, res) =
                 error: "No Review Found to Update"
             });
         }else{
-			// 204 No Content
-			res.status(204).json({
-				message: "Review Successfully Updated",
-			});
+			// 204 No Content (Has no response body/Client ignores response body if sent) 
+			res.status(204);
 		}
     }else{
 		// 400 Bad Request
@@ -36,8 +34,6 @@ reviewsRouter.put("/:id", userAuthentication, validateBookId, async (req, res) =
 			error: "Validation Failed",
 		});
 	}
-
-    
 });
 
 // DELETE /reviews/:id – Delete your own review
@@ -53,10 +49,8 @@ reviewsRouter.delete("/:id", userAuthentication, validateBookId, async(req, res)
 			error: "No Review Found to Delete",
 		});
 	}else{
-		// 204 No Content
-		res.status(204).json({
-			message: "Review Successfully Deleted",
-		});
+		// 204 No Content (Has no response body/Client ignores response body if sent)
+		res.status(204);
 	}
 });
 

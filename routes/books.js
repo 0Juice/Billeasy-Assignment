@@ -12,13 +12,9 @@ booksRouter.post("/", userAuthentication, async (req, res) => {
 
     const validatedBook = bookSchema.safeParse({ title, description, author, genre, publicationDate, imageLink });
 
-    console.log(validatedBook);
-
     if (validatedBook.success) {
 		try {
 			const book = new Book(validatedBook.data);
-
-            console.log(book);
 
             await book.save();
 

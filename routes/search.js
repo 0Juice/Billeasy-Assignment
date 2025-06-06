@@ -25,10 +25,16 @@ searchRouter.get("/", async(req, res) => {
                     ...rest
                 };
             });
-
-        res.json({
-            books
-        });
+        
+        if(books.length > 0){
+            res.json({
+                books
+            });
+        }else{
+            res.status(404).json({
+                message: "No Books Found"
+            });
+        }
 
     }else{
 		// 400 Bad Request

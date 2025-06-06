@@ -15,20 +15,26 @@ authRouter.post("/signup", async (req, res) => {
 
     const validatedUser = userSignupSchema.safeParse({username, password, email});
 
-    console.log(validatedUser);
-
     if(validatedUser.success){
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-		// Not using validatedUser data since validation doesn't mutate original data only checks
-		const newUser = new User({ username, hashedPassword, email });
+        try{
+            // Not using validatedUser data since validation doesn't mutate original data only checks
+            const newUser = new User({ username, hashedPassword, email });
+    
+            await newUser.save();
 
-		await newUser.save();
-		console.log(newUser);
-		// 201 Created
-		res.status(201).json({
-			message: "User Succesfully Created",
-		});
+            // 201 Created
+            res.status(201).json({
+                message: "User Succesfully Created",
+            });
+        }catch(err){
+            if(err.code === 11000){
+                res.status(409).json({
+					error: "User already Exists",
+				});
+            }
+        }
 
 	}else{
         // 400 Bad Request
@@ -47,9 +53,6 @@ authRouter.post("/login", async (req, res) => {
 
     const validatedUser = userLoginSchema.safeParse({username, password, email});
 
-    // DEBUG ZOD ERROR
-    // console.log(validatedUser);
-
     if(validatedUser.success){
 		// const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -65,7 +68,6 @@ authRouter.post("/login", async (req, res) => {
         }
 
 		if(user){
-            console.log(user);
             const isValid = await bcrypt.compare(
 				password,
 				user.hashedPassword

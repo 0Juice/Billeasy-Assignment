@@ -24,8 +24,6 @@ const userSignupSchema = z.object({
 	email: z.email()
 });
 
-// publicationDate: Date,
-// 	imageLink: String,
 const bookSchema = z.object({
 	// Set Max Size for a Title & Description to prevent spamming
 	title: z.string().max(256),
